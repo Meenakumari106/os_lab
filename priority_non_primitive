@@ -1,0 +1,68 @@
+#include<stdio.h>
+struct k{
+int p,x,y;
+};
+/*2 0 11
+0 5 28
+3 12 2
+1 2 10
+4 9 16*/
+void sort(struct k s[10],int n){
+	int i,j;
+	struct k temp;
+	for(i=1;i<n-1;i++){
+		for(j=i+1;j<n;j++ ){
+		  if(s[i].p > s[j].p ){//|| (s[j].x>s[j+1].x && s[j].p==s[j+1].p) ){
+		  	temp=s[j];
+		  	s[j]=s[i];
+		  	s[i]=temp;
+		  }	
+		}  
+	}
+	for(i=0;i<n;i++)
+	printf("    %d %d %d\n",s[i].p,s[i].x,s[i].y);
+}
+void main(){
+	int n,i,j,index,min=999,cmptym[10],tat[10],wt[10],ct=0;
+float avg_tat=0.0,avg_wt=0.0;
+	struct k s[10];
+	struct k temp;
+ 	printf("enter n");
+	scanf("%d",&n);
+	for(i=0;i<n;i++){
+		scanf("%d%d%d",&s[i].p,&s[i].x,&s[i].y);
+	}
+	for(i=0;i<n;i++){
+		if(s[i].x<min){
+			min=s[i].x;
+			index=i;
+		}
+		if(s[i].x==min){
+		     if(s[i].y<s[index].y){
+		          min=s[i].x;
+		          index=i;
+		     }
+		}		
+	}
+	//printf("min is %d\n",min);
+	temp=s[0];
+	s[0]=s[index];
+	s[index]=temp;
+	sort(s,n);
+	for(i=0;i<n;i++)
+	printf("::    %d %d %d\n",s[i].p,s[i].x,s[i].y);
+	if(s[index].x!=0)
+	ct=s[index].x;
+	for(i=0;i<n;i++){
+	    cmptym[i]=ct+s[i].y;
+	    ct=cmptym[i];
+	    tat[i]=cmptym[i]-s[i].x;
+	    wt[i]=tat[i]-s[i].y;
+	    avg_tat=avg_tat+tat[i];
+	    avg_wt=avg_wt+wt[i];
+	}
+	printf("\n");
+	for(i=0;i<n;i++)
+	printf("%d %d %d\n",cmptym[i],tat[i],wt[i]);
+	printf("%.2f %.2f",avg_tat/n,avg_wt/n);
+}
