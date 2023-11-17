@@ -1,0 +1,87 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+bool check(vector<int>&ans,int n,int key)
+{
+    for(int i=0;i<n;i++)
+    {
+        if(ans[i]==key)
+          return true;
+    }
+    return false;
+}
+void arrange(vector<int>&ans,int frames,int val,int &k)
+{
+    if(k==frames)
+    {
+        k=0;
+        ans[k]=val;
+        k++;
+    }
+    else
+    {
+        ans[k]=val;
+        k++;
+    }
+       
+}
+int main()
+{
+    int n;
+    cout<<"enter string size:"<<" ";
+    cin>>n;
+    int s[n];
+    for(int i=0;i<n;i++)
+     cin>>s[i];
+    int frames;
+    cout<<"enter frames:"<<" ";
+    cin>>frames;
+   vector<int>ans(frames,-1);
+    int pagefaults=0,k=0;
+    for(int i=0;i<n;i++)
+    {
+        if(i>=frames)
+        {
+            if(!check(ans,frames,s[i]))
+            {
+                arrange(ans,frames,s[i],k);
+                pagefaults++;
+            }
+
+        }
+        else
+        {
+            if(!check(ans,frames,s[i]))
+            {
+                arrange(ans,frames,s[i],k);
+                pagefaults++;
+            }
+
+        }
+        
+    }
+    for(int i=0;i<frames;i++)
+       cout<<ans[i]<<" ";
+    cout<<endl<<pagefaults<<endl;
+}
+
+// 7  
+// 0
+// 1
+// 2
+// 0
+// 3
+// 0
+// 4
+// 2
+// 3
+// 0
+// 3
+// 2
+// 1
+// 2
+// 0
+// 1
+// 7
+// 0
+// 1
