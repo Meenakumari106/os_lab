@@ -1,0 +1,83 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool check(vector<int>&ans,int n,int key)
+{
+    for(int i=0;i<n;i++)
+    {
+        if(ans[i]==key)
+          return true;
+    }
+    return false;
+}
+void arrange(vector<int>&ans, vector<int>&sample,int frames,int key)
+{
+    int val=sample[frames-1];
+    cout<<"val:"<<val<<" "<<key<<endl;
+    for(int i=0;i<frames;i++)
+    {
+        if(ans[i]==val)
+          ans[i]=key;
+
+    }
+    
+}
+bool find(vector<int>&sample ,int key)
+{
+    for(int i=0;i<sample.size();i++)
+    {
+        if(sample[i]==key)
+           return false;
+    }
+    return true;
+}
+int main()
+{
+    int n;
+    cout<<"enter string size:"<<" ";
+    cin>>n;
+    int s[n];
+    for(int i=0;i<n;i++)
+     cin>>s[i];
+    // for(int i=0;i<n;i++)
+    //  cout<<s[i]<<" ";
+    int frames;
+    cout<<"enter frames:"<<" ";
+    cin>>frames;
+   vector<int>ans(frames,-1);
+    int pagefaults=0,k=0;
+    for(int i=0;i<n;i++)
+    {
+        if(i>=frames)
+        {
+            if(!check(ans,frames,s[i]))
+            {
+                vector<int>sample(frames,-1);
+                int k=0;
+                for(int j=i-1;j>=0;j--)
+                {
+                    if(k==frames)break;
+                    if(find(sample,s[j]))
+                    {
+                        sample[k++]=s[j]; 
+                    }
+                    
+                }
+                arrange(ans,sample,frames,s[i]);
+                pagefaults++;
+            } 
+        }
+        else
+        {
+            if(!check(ans,frames,s[i]))
+            {
+                ans[i]=s[i];
+                pagefaults++;
+            } 
+        }
+    }
+    for(int i=0;i<frames;i++)
+     cout<<ans[i]<<endl;
+
+    cout<<pagefaults<<endl;
+
+}
